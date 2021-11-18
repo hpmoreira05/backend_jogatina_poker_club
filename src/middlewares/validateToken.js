@@ -11,7 +11,6 @@ module.exports = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, secret);
     const user = await Users.getUserByEmail(decoded.data.email);
-    console.log(user);
     if (!user) {
       return res.status(401).json({ message: 'JWT malformed' });
     }
