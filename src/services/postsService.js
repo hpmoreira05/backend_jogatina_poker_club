@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const Posts = require('../models/postsModel');
 
 const createPost = async ({ title, description, userId }) => {
@@ -13,4 +14,12 @@ const getPosts = async () => {
   return posts;
 };
 
-module.exports = { createPost, getPosts };
+const getPostsByUserId = async (_id) => {
+  if (!ObjectId.isValid(_id)) {
+    return { err: { code: 404, message: { message: 'Posts by user not found' } } };
+  }
+  const posts = await Posts.getPostsByUserId(_id);
+  return posts;
+};
+
+module.exports = { createPost, getPosts, getPostsByUserId };
