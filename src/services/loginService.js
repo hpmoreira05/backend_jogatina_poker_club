@@ -19,11 +19,12 @@ const login = async ({ email, password }) => {
   if (!email || !password) {
     return { err: { code: 401, message: { message: 'All fields must be filled' } } };
   }
-  const user = await User.getEmail(email);
+  const user = await User.getUserByEmail(email);
   if (!user || user.password !== password) {
     return { err: { code: 401, message: { message: 'Incorrect username or password' } } };
   }
-  generateToken(user, email);
+  const token = generateToken(user, email);
+  return token;
 };
 
 module.exports = { login };
