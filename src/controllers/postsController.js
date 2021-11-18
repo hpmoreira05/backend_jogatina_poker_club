@@ -15,4 +15,14 @@ const createPost = async (req, res) => {
   }
 };
 
-module.exports = { createPost };
+const getPosts = async (req, res) => {
+  try {
+    const data = await Posts.getPosts();
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Try again later' });
+  }
+};
+
+module.exports = { createPost, getPosts };

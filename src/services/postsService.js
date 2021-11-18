@@ -8,8 +8,8 @@ const createPost = async ({ title, description, userId }) => {
   return post;
 };
 
-const getPosts = async (_id) => {
-  const posts = await Posts.getPosts(_id);
+const getPosts = async () => {
+  const posts = await Posts.getPosts();
   return posts;
 };
 
