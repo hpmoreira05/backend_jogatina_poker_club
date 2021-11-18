@@ -23,13 +23,14 @@ const getPostsByUserId = async (_id) => {
 };
 
 const editPost = async ({ id, title, description }) => {
-  const editedPost = await db.collection('posts')
+  await db.collection('posts')
     .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { 
       title,
       description,
       editedAt: new Date().toLocaleString('en-US'),
     } });
-  return editedPost.value;
+  const editedPost = await db.collection('posts').findOne({ _id: ObjectId(id) });
+  return editedPost;
 };
 
 module.exports = { createPost, getPosts, getPostsByUserId, editPost };

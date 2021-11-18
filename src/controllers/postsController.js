@@ -54,4 +54,4 @@ const editPost = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getPosts, getPostsByUserId };
+module.exports = { createPost, getPosts, getPostsByUserId, editPost };
