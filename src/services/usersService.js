@@ -12,6 +12,8 @@ const verifyUserInfo = async (email, password, name) => {
 
 const createUser = async ({ email, password, name }) => {
   if (await verifyUserInfo(email, password, name)) return verifyUserInfo(email, password, name);
+  const emailExists = await Users.getUserByEmail(email);
+  if (emailExists) return { err: { code: 409, message: { message: 'Email already registered' } } };
   const registeredUser = await Users.createUser({ email, password, name });
   return registeredUser;
 };
