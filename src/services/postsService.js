@@ -8,4 +8,9 @@ const createPost = async ({ title, description, userId }) => {
   return post;
 };
 
-module.exports = { createPost };
+const getPosts = async (_id) => {
+  const posts = await Posts.getPosts(_id);
+  return posts;
+};
+
+module.exports = { createPost, getPosts };
