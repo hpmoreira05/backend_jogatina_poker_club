@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const db = require('../connection');
 
 const createPost = async ({ description, userId, title }) => {
@@ -21,4 +22,14 @@ const getPostsByUserId = async (_id) => {
   return posts;
 };
 
-module.exports = { createPost, getPosts, getPostsByUserId };
+const editPost = async ({ id, title, description }) => {
+  const editedPost = await db.collection('posts')
+    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { 
+      title,
+      description,
+      editedAt: new Date().toLocaleString('en-US'),
+    } });
+  return editedPost.value;
+};
+
+module.exports = { createPost, getPosts, getPostsByUserId, editPost };
