@@ -34,4 +34,11 @@ const editPost = async ({ id, title, description }) => {
   return editedPost;
 };
 
-module.exports = { createPost, getPosts, getPostsByUserId, editPost };
+const deletePost = async (id) => {
+  if (!ObjectId.isValid(id)) return { err: { code: 404, message: { message: 'Post not found' } } };
+  const data = await Posts.deletePost(id);
+  if (!data) return { err: { code: 404, message: { message: 'Post not found' } } };
+  return data;
+};
+
+module.exports = { createPost, getPosts, getPostsByUserId, editPost, deletePost };
