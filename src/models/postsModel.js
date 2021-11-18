@@ -38,4 +38,10 @@ const editPost = async ({ id, title, description }) => {
   return editedPost;
 };
 
-module.exports = { createPost, getPosts, getPostsByUserId, editPost, getPostById };
+const deletePost = async (id) => {
+  const postDeleted = getPostById(id);
+  await db.collection('posts').deleteOne({ _id: ObjectId(id) });
+  return postDeleted;
+};
+
+module.exports = { createPost, getPosts, getPostsByUserId, editPost, getPostById, deletePost };
