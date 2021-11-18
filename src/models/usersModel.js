@@ -5,4 +5,9 @@ const createUser = async ({ email, password, name }) => {
   return { user: { name, email, _id: inserted.insertedId } };
 };
 
-module.exports = { createUser };
+const getUserByEmail = async (email) => {
+  const user = await db.collection('users').findOne({ email });
+  return user;
+};
+
+module.exports = { createUser, getUserByEmail };
