@@ -11,9 +11,14 @@ const createPost = async ({ description, userId, title }) => {
   return { Post: { title, description, userId, _id: createdPost.insertedId } };
 };
 
-const getPosts = async (_id) => {
+const getPosts = async () => {
   const posts = await db.collection('posts').find().toArray();
   return posts;
 };
 
-module.exports = { createPost, getPosts };
+const getPostsByUserId = async (_id) => {
+  const posts = await db.collection('posts').find({ userId: _id }).toArray();
+  return posts;
+};
+
+module.exports = { createPost, getPosts, getPostsByUserId };
