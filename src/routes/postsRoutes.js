@@ -6,11 +6,13 @@ const {
   getPosts,
   getPostsByUserId,
   editPost,
+  deletePost,
 } = require('../controllers/postsController');
 
 router.post('/', validateToken, createPost);
 router.get('/', getPosts);
 router.get('/myposts', validateToken, getPostsByUserId);
 router.put('/:id', validateToken, validatePostOwner, editPost);
+router.delete('/:id', validateToken, validatePostOwner, deletePost);
 
 module.exports = router;

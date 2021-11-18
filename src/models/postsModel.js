@@ -34,12 +34,13 @@ const editPost = async ({ id, title, description }) => {
       description,
       editedAt: new Date().toLocaleString('en-US'),
     } });
-  const editedPost = getPostById(id);
+  const editedPost = await getPostById(id);
   return editedPost;
 };
 
 const deletePost = async (id) => {
-  const postDeleted = getPostById(id);
+  const postDeleted = await getPostById(id);
+  console.log(postDeleted);
   await db.collection('posts').deleteOne({ _id: ObjectId(id) });
   return postDeleted;
 };
