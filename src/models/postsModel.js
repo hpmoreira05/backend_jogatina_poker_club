@@ -5,7 +5,7 @@ const createPost = async ({ description, userId, title }) => {
     .insertOne({ 
       title,
       description,
-      createdAt: new Date().toLocaleString('pt-br'),
+      createdAt: new Date().toLocaleString('en-US'),
       userId,
     });
   return { Post: { title, description, userId, _id: createdPost.insertedId } };
