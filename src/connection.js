@@ -44,8 +44,8 @@ const DB_NAME = 'myFirstDatabase';
 
 let db = null;
 
-const connection = () =>
-    (db
+const connection = () => 
+     (db
     ? Promise.resolve(db)
     : MongoClient.connect(MONGO_DB_URL, OPTIONS)
     .then((conn) => {
