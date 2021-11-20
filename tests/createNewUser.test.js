@@ -69,4 +69,61 @@ describe('POST /users', () => {
       expect(response.body.message).to.be.equal('Invalid entries. Try again.');
     });
   });
+
+  describe('when password is not informed', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(server).post('/users').send({
+        email: 'test@email.com',
+        name: 'test',
+      });
+    });
+
+    it('returns status code "400"', () => {
+      expect(response).to.have.status(400);
+    });
+    it('returns an object', () => {
+      expect(response.body).to.be.an('object');
+    });
+    it('the object has property "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Invalid entries. Try again."', () => {
+      expect(response.body.message).to.be.equal('Invalid entries. Try again.');
+    });
+  });
+
+  describe('when email is already registered', () => {
+    let response;
+
+    before(async () => {
+      const userCollection = connectionMock.db('myFirstDatabase').collection('users');
+
+      await userCollection.insertOne({
+        email: 'test@test.com',
+        name: 'tester',
+        password: '123456',
+      });
+
+      response = await chai.request(server).post('/users').send({
+        email: 'test@test.com',
+        name: 'John',
+        password: '123456789',
+      });
+    });
+
+    it('returns status code "409"', () => {
+      expect(response).to.have.status(409);
+    });
+    it('returns an object', () => {
+      expect(response.body).to.be.an('object');
+    });
+    it('the object has property "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Email already registered"', () => {
+      expect(response.body.message).to.be.equal('Email already registered');
+    });
+  });
 });
