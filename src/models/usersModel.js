@@ -2,8 +2,8 @@ const connection = require('../connection');
 
 const createUser = async ({ email, password, name }) => {
   const db = await connection();
-  const inserted = await db.collection('users').insertOne({ name, email, password });
-  return { user: { name, email, _id: inserted.insertedId } };
+  await db.collection('users').insertOne({ name, email, password });
+  return { message: 'Successfully registered user' };
 };
 
 const getUserByEmail = async (email) => {
