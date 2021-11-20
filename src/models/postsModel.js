@@ -32,7 +32,7 @@ const editPost = async ({ id, title, description }) => {
     .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { 
       title,
       description,
-      editedAt: new Date().toLocaleString('en-US'),
+      updatedAt: new Date().toLocaleString('en-US'),
     } });
   const editedPost = await getPostById(id);
   return editedPost;
