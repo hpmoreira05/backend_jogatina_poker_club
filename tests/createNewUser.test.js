@@ -10,6 +10,9 @@ const { getConnection } = require('./connectionMock');
 
 chai.use(chaiHttp);
 
+const returnsObject = 'returns an object';
+const objectPropertyMessage = 'the object has property "message"'
+
 describe('POST /users', () => {
   let connectionMock;
 
@@ -35,10 +38,10 @@ describe('POST /users', () => {
     it('returns status code "400"', () => {
       expect(response).to.have.status(400);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Invalid entries. Try again."', () => {
@@ -59,10 +62,10 @@ describe('POST /users', () => {
     it('returns status code "400"', () => {
       expect(response).to.have.status(400);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Invalid entries. Try again."', () => {
@@ -83,10 +86,10 @@ describe('POST /users', () => {
     it('returns status code "400"', () => {
       expect(response).to.have.status(400);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Invalid entries. Try again."', () => {
@@ -94,18 +97,10 @@ describe('POST /users', () => {
     });
   });
 
-  describe('when email is already registered', () => {
+  describe('when user is succesfully created', () => {
     let response;
 
     before(async () => {
-      const userCollection = connectionMock.db('myFirstDatabase').collection('users');
-
-      await userCollection.insertOne({
-        email: 'test@test.com',
-        name: 'tester',
-        password: '123456',
-      });
-
       response = await chai.request(server).post('/users').send({
         email: 'test@test.com',
         name: 'John',
@@ -113,13 +108,38 @@ describe('POST /users', () => {
       });
     });
 
+    it('returns status code "201"', () => {
+      expect(response).to.have.status(201);
+    });
+    it(returnsObject, () => {
+      expect(response.body).to.be.an('object');
+    });
+    it(objectPropertyMessage, () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "User successfully registered"', () => {
+      expect(response.body.message).to.be.equal('User successfully registered');
+    });
+  });
+
+  describe('when email is already registered', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(server).post('/users').send({
+        email: 'test@test.com',
+        name: 'Test',
+        password: '123456',
+      });
+    });
+
     it('returns status code "409"', () => {
       expect(response).to.have.status(409);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Email already registered"', () => {
