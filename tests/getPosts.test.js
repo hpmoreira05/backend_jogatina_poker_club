@@ -39,4 +39,49 @@ describe('GET /posts', () => {
       expect(response.body).to.have.lengthOf(0);
     });
   });
+
+  describe('when there is some post created', () => {
+    let response;
+
+    before(async () => {
+      const userCollection = connectionMock.db('myFirstDatabase').collection('users');
+
+      await userCollection.insertOne({
+        name: 'Tester',
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      const token = await chai.request(server).post('/login').send({
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      await chai.request(server).post('/posts')
+      .set('authorization', token.body.token)
+      .send({
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tempor moles.',
+      });
+
+      response = await chai.request(server).get('/posts').send();
+    });
+
+    it('returns status code "200"', () => {
+      expect(response).to.have.status(200);
+    });
+    it('returns an array', () => {
+      expect(response.body).to.be.an('array');
+    });
+    it('returns one array of objects', () => {
+      expect(response.body[0]).to.be.an('object');
+    });
+    it('the object keys are: "_id", "title", "description", "createdAt" and "userId"', () => {
+      expect(response.body[0]).to.have.property('_id');
+      expect(response.body[0]).to.have.property('title');
+      expect(response.body[0]).to.have.property('description');
+      expect(response.body[0]).to.have.property('createdAt');
+      expect(response.body[0]).to.have.property('userId');
+    });
+  });
 });
