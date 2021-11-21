@@ -50,10 +50,7 @@ describe('PUT /posts/:id', () => {
     let response;
 
     before(async () => {
-      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
-        title: 'Upadated',
-        description: postDescription,
-      });
+      response = await chai.request(server).delete(`/posts/${post.body.id}`);
     });
 
     it('returns status code "401"', () => {
@@ -74,10 +71,8 @@ describe('PUT /posts/:id', () => {
     let response;
 
     before(async () => {
-      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
-        title: 'Upadated',
-        description: postDescription,
-      }).set('authorization', 'jasd545g4456s4f8f4s645g8d');
+      response = await chai.request(server).delete(`/posts/${post.body.id}`)
+      .set('authorization', 'jasd545g4456s4f8f4s645g8d');
     });
 
     it('returns status code "401"', () => {
@@ -98,10 +93,8 @@ describe('PUT /posts/:id', () => {
     let response;
 
     before(async () => {
-      response = await chai.request(server).put('/posts/f4s45f48gssf85s5g').send({
-        title: 'Upadated',
-        description: postDescription,
-      }).set('authorization', token.body.token);
+      response = await chai.request(server).delete('/posts/f4s45f48gssf85s5g')
+      .set('authorization', token.body.token);
     });
 
     it('returns status code "404"', () => {
@@ -133,10 +126,8 @@ describe('PUT /posts/:id', () => {
         password: '123456',
       });
 
-      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
-        title: 'Upadated',
-        description: postDescription,
-      }).set('authorization', token2.body.token);
+      response = await chai.request(server).delete(`/posts/${post.body.id}`)
+      .set('authorization', token2.body.token);
     });
 
     it('returns status code "401"', () => {
@@ -150,53 +141,6 @@ describe('PUT /posts/:id', () => {
     });
     it('property "message" has value "Unalthorized"', () => {
       expect(response.body.message).to.be.equal('Unalthorized');
-    });
-  });
-
-  describe('when is missing params', () => {
-    let response;
-
-    before(async () => {
-      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
-        
-      }).set('authorization', token.body.token);
-    });
-
-    it('returns status code "400"', () => {
-      expect(response).to.have.status(400);
-    });
-    it(returnsObject, () => {
-      expect(response.body).to.be.an('object');
-    });
-    it(objectPropertyMessage, () => {
-      expect(response.body).to.have.property('message');
-    });
-    it('property "message" has value "Invalid entries. Try again."', () => {
-      expect(response.body.message).to.be.equal('Invalid entries. Try again.');
-    });
-  });
-
-  describe('when update succeeds', () => {
-    let response;
-
-    before(async () => {
-      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
-        title: 'Upadated',
-        description: postDescription,
-      }).set('authorization', token.body.token);
-    });
-
-    it('returns status code "200"', () => {
-      expect(response).to.have.status(200);
-    });
-    it(returnsObject, () => {
-      expect(response.body).to.be.an('object');
-    });
-    it(objectPropertyMessage, () => {
-      expect(response.body).to.have.property('message');
-    });
-    it('property "message" has value "Post updated succesfully"', () => {
-      expect(response.body.message).to.be.equal('Post updated succesfully');
     });
   });
 });
