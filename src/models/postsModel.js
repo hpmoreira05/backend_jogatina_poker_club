@@ -3,14 +3,14 @@ const connection = require('../connection');
 
 const createPost = async ({ description, userId, title }) => {
   const db = await connection();
-  const createdPost = await db.collection('posts')
+  await db.collection('posts')
     .insertOne({ 
       title,
       description,
       createdAt: new Date().toLocaleString('en-US'),
       userId,
     });
-  return { Post: { title, description, userId, _id: createdPost.insertedId } };
+  return { Message: 'Post created succesfully' };
 };
 
 const getPosts = async () => {

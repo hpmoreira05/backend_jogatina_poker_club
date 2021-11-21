@@ -11,7 +11,7 @@ const { getConnection } = require('./connectionMock');
 chai.use(chaiHttp);
 
 const returnsObject = 'returns an object';
-const objectPropertyMessage = 'the object has property "message"'
+const objectPropertyMessage = 'the object has property "message"';
 
 describe('POST /users', () => {
   let connectionMock;
