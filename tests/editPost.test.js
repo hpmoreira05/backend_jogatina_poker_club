@@ -150,4 +150,27 @@ describe('PUT /posts/:id', () => {
       expect(response.body.message).to.be.equal('Unalthorized');
     });
   });
+
+  describe('when is missing params', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
+        
+      }).set('authorization', token.body.token);
+    });
+
+    it('returns status code "400"', () => {
+      expect(response).to.have.status(400);
+    });
+    it('returns an object', () => {
+      expect(response.body).to.be.an('object');
+    });
+    it('the object has property "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Invalid entries. Try again."', () => {
+      expect(response.body.message).to.be.equal('Invalid entries. Try again.');
+    });
+  });
 });
