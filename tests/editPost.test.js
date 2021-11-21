@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable mocha/no-mocha-arrows */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -10,6 +8,10 @@ const server = require('../src/app');
 const { getConnection } = require('./connectionMock');
 
 chai.use(chaiHttp);
+
+const returnsObject = 'returns an object';
+const objectPropertyMessage = 'the object has property "message"';
+const postDescription = 'Lorem ipsum dolor sit amet';
 
 describe('PUT /posts/:id', () => {
   let connectionMock;
@@ -50,17 +52,17 @@ describe('PUT /posts/:id', () => {
     before(async () => {
       response = await chai.request(server).put(`/posts/${post.body.id}`).send({
         title: 'Upadated',
-        description: 'Lorem ipsum dolor sit amet',
+        description: postDescription,
       });
     });
 
     it('returns status code "401"', () => {
       expect(response).to.have.status(401);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Missing auth token"', () => {
@@ -74,17 +76,17 @@ describe('PUT /posts/:id', () => {
     before(async () => {
       response = await chai.request(server).put(`/posts/${post.body.id}`).send({
         title: 'Upadated',
-        description: 'Lorem ipsum dolor sit amet',
+        description: postDescription,
       }).set('authorization', 'jasd545g4456s4f8f4s645g8d');
     });
 
     it('returns status code "401"', () => {
       expect(response).to.have.status(401);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "JWT malformed"', () => {
@@ -98,17 +100,17 @@ describe('PUT /posts/:id', () => {
     before(async () => {
       response = await chai.request(server).put('/posts/f4s45f48gssf85s5g').send({
         title: 'Upadated',
-        description: 'Lorem ipsum dolor sit amet',
+        description: postDescription,
       }).set('authorization', token.body.token);
     });
 
     it('returns status code "404"', () => {
       expect(response).to.have.status(404);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Post not found"', () => {
@@ -133,17 +135,17 @@ describe('PUT /posts/:id', () => {
 
       response = await chai.request(server).put(`/posts/${post.body.id}`).send({
         title: 'Upadated',
-        description: 'Lorem ipsum dolor sit amet',
+        description: postDescription,
       }).set('authorization', token2.body.token);
     });
 
     it('returns status code "404"', () => {
       expect(response).to.have.status(401);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Unalthorized"', () => {
@@ -163,10 +165,10 @@ describe('PUT /posts/:id', () => {
     it('returns status code "400"', () => {
       expect(response).to.have.status(400);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Invalid entries. Try again."', () => {
@@ -180,17 +182,17 @@ describe('PUT /posts/:id', () => {
     before(async () => {
       response = await chai.request(server).put(`/posts/${post.body.id}`).send({
         title: 'Upadated',
-        description: 'Lorem ipsum dolor sit amet',
+        description: postDescription,
       }).set('authorization', token.body.token);
     });
 
     it('returns status code "200"', () => {
       expect(response).to.have.status(200);
     });
-    it('returns an object', () => {
+    it(returnsObject, () => {
       expect(response.body).to.be.an('object');
     });
-    it('the object has property "message"', () => {
+    it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
     it('property "message" has value "Post updated succesfully"', () => {
