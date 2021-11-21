@@ -71,4 +71,40 @@ describe('POST /posts', () => {
       expect(response.body.message).to.be.equal('JWT malformed');
     });
   });
+
+  describe('when there is no title or description', () => {
+    let response;
+
+    before(async () => {
+      const userCollection = connectionMock.db('myFirstDatabase').collection('users');
+
+      await userCollection.insertOne({
+        name: 'Tester',
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      const token = await chai.request(server).post('/login').send({
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      response = await chai.request(server).post('/posts')
+      .set('authorization', token.body.token)
+      .send({});
+    });
+
+    it('returns status code "400"', () => {
+      expect(response).to.have.status(400);
+    });
+    it('returns an object', () => {
+      expect(response.body).to.be.an('object');
+    });
+    it('the object has property "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Invalid entries. Try again."', () => {
+      expect(response.body.message).to.be.equal('Invalid entries. Try again.');
+    });
+  });
 });
