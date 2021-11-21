@@ -44,10 +44,8 @@ const editPost = async ({ id, title, description }) => {
 
 const deletePost = async (id) => {
   const db = await connection();
-  const postDeleted = await getPostById(id);
-  console.log(postDeleted);
   await db.collection('posts').deleteOne({ _id: ObjectId(id) });
-  return postDeleted;
+  return { message: 'Post deleted succesfully' };
 };
 
 module.exports = { createPost, getPosts, getPostsByUserId, editPost, getPostById, deletePost };

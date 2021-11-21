@@ -11,7 +11,6 @@ chai.use(chaiHttp);
 
 const returnsObject = 'returns an object';
 const objectPropertyMessage = 'the object has property "message"';
-const postDescription = 'Lorem ipsum dolor sit amet';
 
 describe('PUT /posts/:id', () => {
   let connectionMock;
@@ -141,6 +140,28 @@ describe('PUT /posts/:id', () => {
     });
     it('property "message" has value "Unalthorized"', () => {
       expect(response.body.message).to.be.equal('Unalthorized');
+    });
+  });
+
+  describe('when it is succesfully deleted', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(server).delete(`/posts/${post.body.id}`)
+      .set('authorization', token.body.token);
+    });
+
+    it('returns status code "200"', () => {
+      expect(response).to.have.status(200);
+    });
+    it(returnsObject, () => {
+      expect(response.body).to.be.an('object');
+    });
+    it(objectPropertyMessage, () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Post deleted succesfully"', () => {
+      expect(response.body.message).to.be.equal('Post deleted succesfully');
     });
   });
 });
