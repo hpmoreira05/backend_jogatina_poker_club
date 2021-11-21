@@ -18,7 +18,8 @@ describe('GET /posts', () => {
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
   });
 
-  after(() => {
+  after(async () => {
+    await connectionMock.db('myFirstDatabase').dropDatabase();
     MongoClient.connect.restore();
   });
 
