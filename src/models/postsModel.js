@@ -10,7 +10,7 @@ const createPost = async ({ description, userId, title }) => {
       createdAt: new Date().toLocaleString('en-US'),
       userId,
     });
-  return { Message: 'Post created succesfully' };
+  return { message: 'Post created succesfully' };
 };
 
 const getPosts = async () => {
