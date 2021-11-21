@@ -73,6 +73,7 @@ describe('POST /login', () => {
       const userCollection = connectionMock.db('myFirstDatabase').collection('users');
 
       await userCollection.insertOne({
+        name: 'Test',
         email: 'test@email.com',
         password: '123456',
       });
