@@ -64,4 +64,36 @@ describe('GET /posts/myposts', () => {
       expect(response.body.message).to.be.equal('JWT malformed');
     });
   });
+
+  describe('when there is nothing posted', () => {
+    let response;
+
+    before(async () => {
+      const userCollection = connectionMock.db('myFirstDatabase').collection('users');
+
+      await userCollection.insertOne({
+        name: 'Tester',
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      const token = await chai.request(server).post('/login').send({
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      response = await chai.request(server).get('/posts/myposts')
+      .set('authorization', token.body.token);
+    });
+
+    it('returns status code "200"', () => {
+      expect(response).to.have.status(200);
+    });
+    it('returns an array', () => {
+      expect(response.body).to.be.an('array');
+    });
+    it('array is empty', () => {
+      expect(response.body).to.have.lengthOf(0);
+    });
+  });
 });
