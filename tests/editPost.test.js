@@ -15,11 +15,12 @@ describe('PUT /posts/:id', () => {
   let connectionMock;
   let token;
   let post;
+  let userCollection;
 
   before(async () => {
     connectionMock = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    const userCollection = connectionMock.db('myFirstDatabase').collection('users');
+    userCollection = connectionMock.db('myFirstDatabase').collection('users');
 
       await userCollection.insertOne({
         name: 'Test',
@@ -112,6 +113,41 @@ describe('PUT /posts/:id', () => {
     });
     it('property "message" has value "Post not found"', () => {
       expect(response.body.message).to.be.equal('Post not found');
+    });
+  });
+
+  describe('when user is not post owner', () => {
+    let response;
+
+    before(async () => {
+      await userCollection.insertOne({
+        name: 'Test2',
+        email: 'test2@email.com',
+        password: '123456',
+      });
+
+      const token2 = await chai.request(server).post('/login').send({
+        email: 'test2@email.com',
+        password: '123456',
+      });
+
+      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
+        title: 'Upadated',
+        description: 'Lorem ipsum dolor sit amet',
+      }).set('authorization', token2.body.token);
+    });
+
+    it('returns status code "404"', () => {
+      expect(response).to.have.status(401);
+    });
+    it('returns an object', () => {
+      expect(response.body).to.be.an('object');
+    });
+    it('the object has property "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Unalthorized"', () => {
+      expect(response.body.message).to.be.equal('Unalthorized');
     });
   });
 });
