@@ -13,10 +13,29 @@ chai.use(chaiHttp);
 
 describe('PUT /posts/:id', () => {
   let connectionMock;
+  let token;
+  let post;
 
   before(async () => {
     connectionMock = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+    const userCollection = connectionMock.db('myFirstDatabase').collection('users');
+
+      await userCollection.insertOne({
+        name: 'Test',
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      token = await chai.request(server).post('/login').send({
+        email: 'test@email.com',
+        password: '123456',
+      });
+
+      post = await chai.request(server).post('/posts').send({
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tempor moles.',
+      }).set('authorization', token.body.token);
   });
 
   after(async () => {
@@ -28,24 +47,6 @@ describe('PUT /posts/:id', () => {
     let response;
 
     before(async () => {
-      const userCollection = connectionMock.db('myFirstDatabase').collection('users');
-
-      await userCollection.insertOne({
-        name: 'Test',
-        email: 'test@email.com',
-        password: '123456',
-      });
-
-      const token = await chai.request(server).post('/login').send({
-        email: 'test@email.com',
-        password: '123456',
-      });
-
-      const post = await chai.request(server).post('/posts').send({
-        title: 'Lorem Ipsum',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tempor moles.',
-      }).set('authorization', token.body.token);
-
       response = await chai.request(server).put(`/posts/${post.body.id}`).send({
         title: 'Upadated',
         description: 'Lorem ipsum dolor sit amet',
@@ -70,24 +71,6 @@ describe('PUT /posts/:id', () => {
     let response;
 
     before(async () => {
-      const userCollection = connectionMock.db('myFirstDatabase').collection('users');
-
-      await userCollection.insertOne({
-        name: 'Test',
-        email: 'test@email.com',
-        password: '123456',
-      });
-
-      const token = await chai.request(server).post('/login').send({
-        email: 'test@email.com',
-        password: '123456',
-      });
-
-      const post = await chai.request(server).post('/posts').send({
-        title: 'Lorem Ipsum',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tempor moles.',
-      }).set('authorization', token.body.token);
-
       response = await chai.request(server).put(`/posts/${post.body.id}`).send({
         title: 'Upadated',
         description: 'Lorem ipsum dolor sit amet',
@@ -105,6 +88,30 @@ describe('PUT /posts/:id', () => {
     });
     it('property "message" has value "JWT malformed"', () => {
       expect(response.body.message).to.be.equal('JWT malformed');
+    });
+  });
+
+  describe('when id is invalid', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(server).put('/posts/f4s45f48gssf85s5g').send({
+        title: 'Upadated',
+        description: 'Lorem ipsum dolor sit amet',
+      }).set('authorization', token.body.token);
+    });
+
+    it('returns status code "404"', () => {
+      expect(response).to.have.status(404);
+    });
+    it('returns an object', () => {
+      expect(response.body).to.be.an('object');
+    });
+    it('the object has property "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Post not found"', () => {
+      expect(response.body.message).to.be.equal('Post not found');
     });
   });
 });

@@ -23,14 +23,10 @@ const getPostsByUserId = async (_id) => {
 };
 
 const editPost = async ({ id, title, description }) => {
-  if (!ObjectId.isValid(id)) {
-    return { err: { code: 404, message: { message: 'Post not found' } } };
-  }
   if (!title || !description) {
     return { err: { code: 400, message: { message: 'Invalid entries. Try again.' } } };
   }
   const editedPost = await Posts.editPost({ id, title, description });
-  if (!editedPost) return { err: { code: 404, message: { message: 'Post not found' } } };
   return editedPost;
 };
 
