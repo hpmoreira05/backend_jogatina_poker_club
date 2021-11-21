@@ -39,8 +39,7 @@ const editPost = async ({ id, title, description }) => {
       description,
       updatedAt: new Date().toLocaleString('en-US'),
     } });
-  const editedPost = await getPostById(id);
-  return editedPost;
+  return { message: 'Post updated succesfully' };
 };
 
 const deletePost = async (id) => {

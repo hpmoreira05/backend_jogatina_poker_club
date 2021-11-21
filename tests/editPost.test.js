@@ -173,4 +173,28 @@ describe('PUT /posts/:id', () => {
       expect(response.body.message).to.be.equal('Invalid entries. Try again.');
     });
   });
+
+  describe('when update succeeds', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(server).put(`/posts/${post.body.id}`).send({
+        title: 'Upadated',
+        description: 'Lorem ipsum dolor sit amet',
+      }).set('authorization', token.body.token);
+    });
+
+    it('returns status code "200"', () => {
+      expect(response).to.have.status(200);
+    });
+    it('returns an object', () => {
+      expect(response.body).to.be.an('object');
+    });
+    it('the object has property "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+    it('property "message" has value "Post updated succesfully"', () => {
+      expect(response.body.message).to.be.equal('Post updated succesfully');
+    });
+  });
 });
