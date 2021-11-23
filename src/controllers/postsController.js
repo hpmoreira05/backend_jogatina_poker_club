@@ -5,8 +5,8 @@ const errorMessage = 'Something went wrong. Try again later';
 const createPost = async (req, res) => {
   try {
     const { description, title } = req.body;
-    const { _id } = req.user;
-    const data = await Posts.createPost({ title, description, userId: _id });
+    const { _id, name } = req.user;
+    const data = await Posts.createPost({ title, description, userId: _id, name });
     if (data.err) {
       return res.status(data.err.code).json(data.err.message); 
     }

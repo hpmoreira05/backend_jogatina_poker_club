@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
-const createPost = async ({ description, userId, title }) => {
+const createPost = async ({ description, userId, title, name }) => {
   const db = await connection();
   const createdPost = await db.collection('posts')
     .insertOne({ 
@@ -9,6 +9,7 @@ const createPost = async ({ description, userId, title }) => {
       description,
       createdAt: new Date().toLocaleString('en-US'),
       userId,
+      name,
     });
   return { message: 'Post created succesfully', id: createdPost.insertedId };
 };
