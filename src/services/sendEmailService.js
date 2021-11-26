@@ -12,7 +12,7 @@ const sendEmail = async (email, name) => {
     });
 
     await transporter.sendMail({
-      from: '"Talk2Me Support" <talk2me.noreply@gmail.com>', 
+      from: '"The Wall App" <the.wall.app.service@gmail.com>', 
       to: email, 
       subject: 'Account Created Successfully ✔', 
       text: `Hello ${name}! Your account has been created! Welcome, and enjoy ;)`,
