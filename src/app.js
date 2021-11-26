@@ -12,7 +12,7 @@ app.use('/users', usersRoutes);
 app.use('/posts', postsRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Hello!');
+  res.send('Welcome to The Wall App API!');
 });
 
 module.exports = app;

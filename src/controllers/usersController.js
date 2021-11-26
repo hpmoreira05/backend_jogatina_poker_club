@@ -28,4 +28,14 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { createUser, login };
+const validation = async (req, res) => {
+  try {
+    const { email } = req.user;
+     return res.status(200).json({ message: email });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Try again later' });
+  }
+};
+
+module.exports = { createUser, login, validation };
