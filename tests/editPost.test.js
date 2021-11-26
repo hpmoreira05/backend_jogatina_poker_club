@@ -30,7 +30,7 @@ describe('PUT /posts/:id', () => {
         password: '123456',
       });
 
-      token = await chai.request(server).post('/login').send({
+      token = await chai.request(server).post('/users/login').send({
         email: 'test@email.com',
         password: '123456',
       });
@@ -128,7 +128,7 @@ describe('PUT /posts/:id', () => {
         password: '123456',
       });
 
-      const token2 = await chai.request(server).post('/login').send({
+      const token2 = await chai.request(server).post('/users/login').send({
         email: 'test2@email.com',
         password: '123456',
       });

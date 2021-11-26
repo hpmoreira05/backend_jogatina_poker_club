@@ -10,7 +10,7 @@ const { getConnection } = require('./connectionMock');
 
 chai.use(chaiHttp);
 
-describe('POST /login', () => {
+describe('POST /users/login', () => {
   let connectionMock;
 
   before(async () => {
@@ -27,7 +27,7 @@ describe('POST /login', () => {
     let response;
 
     before(async () => {
-      response = await chai.request(server).post('/login').send({});
+      response = await chai.request(server).post('/users/login').send({});
     });
 
     it('returns status code "401"', () => {
@@ -47,7 +47,7 @@ describe('POST /login', () => {
     let response;
 
     before(async () => {
-      response = await chai.request(server).post('/login').send({
+      response = await chai.request(server).post('/users/login').send({
         email: 'hpmoreira05@gmail.com',
         password: '123456',
       });
@@ -78,7 +78,7 @@ describe('POST /login', () => {
         password: '123456',
       });
 
-      response = await chai.request(server).post('/login').send({
+      response = await chai.request(server).post('/users/login').send({
         email: 'test@email.com',
         password: '123456',
       });

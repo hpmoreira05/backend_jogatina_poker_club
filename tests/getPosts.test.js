@@ -53,7 +53,7 @@ describe('GET /posts', () => {
         password: '123456',
       });
 
-      const token = await chai.request(server).post('/login').send({
+      const token = await chai.request(server).post('/users/login').send({
         email: 'test@email.com',
         password: '123456',
       });
