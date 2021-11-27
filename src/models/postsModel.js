@@ -7,7 +7,7 @@ const createPost = async ({ description, userId, title, name }) => {
     .insertOne({ 
       title,
       description,
-      createdAt: new Date().toLocaleString('en-US'),
+      createdAt: new Date().toLocaleString(),
       userId,
       name,
     });
