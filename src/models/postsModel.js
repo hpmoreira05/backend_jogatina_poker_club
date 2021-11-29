@@ -40,13 +40,13 @@ const editPost = async ({ id, title, description }) => {
       description,
       updatedAt: new Date().toLocaleString('en-US'),
     } });
-  return { message: 'Post updated succesfully' };
+  return { message: 'Post updated successfully' };
 };
 
 const deletePost = async (id) => {
   const db = await connection();
   await db.collection('posts').deleteOne({ _id: ObjectId(id) });
-  return { message: 'Post deleted succesfully' };
+  return { message: 'Post deleted successfully' };
 };
 
 module.exports = { createPost, getPosts, getPostsByUserId, editPost, getPostById, deletePost };

@@ -195,8 +195,8 @@ describe('PUT /posts/:id', () => {
     it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
-    it('property "message" has value "Post updated succesfully"', () => {
-      expect(response.body.message).to.be.equal('Post updated succesfully');
+    it('property "message" has value "Post updated successfully"', () => {
+      expect(response.body.message).to.be.equal('Post updated successfully');
     });
   });
 });

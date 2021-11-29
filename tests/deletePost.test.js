@@ -160,8 +160,8 @@ describe('PUT /posts/:id', () => {
     it(objectPropertyMessage, () => {
       expect(response.body).to.have.property('message');
     });
-    it('property "message" has value "Post deleted succesfully"', () => {
-      expect(response.body.message).to.be.equal('Post deleted succesfully');
+    it('property "message" has value "Post deleted successfully"', () => {
+      expect(response.body.message).to.be.equal('Post deleted successfully');
     });
   });
 });
