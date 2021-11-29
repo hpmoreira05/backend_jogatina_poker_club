@@ -288,7 +288,7 @@ Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjY
 ### Example response
 ```JSON
 {
-  "message": "Post updated succesfully"
+  "message": "Post updated  successfully"
 }
 ```
 ## DELETE posts
@@ -322,6 +322,6 @@ Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjY
 ### Example response
 ```JSON
 {
-  "message": "Post deleted succesfully"
+  "message": "Post deleted  successfully"
 }
 ```
