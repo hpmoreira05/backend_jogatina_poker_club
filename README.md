@@ -57,7 +57,7 @@ Access it from here: [The Wall App API](https://wall-app-hpmoreira05-back.heroku
 
 ## POST user
 
-You can use the base url hosted in heroku in the beginning of resource url: https://wall-app-hpmoreira05-back.herokuapp.com/
+You can use the base url hosted in heroku in the beginning of resource url: https://wall-app-hpmoreira05-back.herokuapp.com
 
 - Resource URL: `/users`
 
