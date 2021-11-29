@@ -4,18 +4,13 @@ API intended for use by [The Wall App Project](https://github.com/hpmoreira05/fr
 
 # What's included?
 
-- Node.js
-- Express.js
-- JWT
-- MongoDb
-- Nodemailer
-- Mocha
-- Chai
-- Sinon
+- API RESTful created to use in [The Wall App Project](https://github.com/hpmoreira05/frontend_wall_app)
+
+# Global dependecies
+
+  Ensure that `Node.js v.14.17.6` and `MongoDB v.5.0.2` are installed.
 
 # How to use it?
-
-- Ensure that Node.js and MongoDB are installed.
 
 1. Clone the repository
 - `git clone git@github.com:hpmoreira05/backend_wall_app.git`
@@ -30,11 +25,11 @@ API intended for use by [The Wall App Project](https://github.com/hpmoreira05/fr
 - Enter the following values:
 ``` 
 PORT = 5000
-DATABASE_CONNECTION_STRING=mongodb+srv://admin_TSL:123456TSL@cluster0.upv53.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-SECRET_KEY=wallapptoken123456
-EMAIL_USER=the.wall.app.service@gmail.com
-EMAIL_PASSWORD=TSL123456
-DB_NAME=myFirstDatabase
+DATABASE_CONNECTION_STRING = [database path]
+SECRET_KEY = [JWT password]
+EMAIL_USER = [email sender]
+EMAIL_PASSWORD = [email sender password]
+DB_NAME = [database name]
 ```
 4. Start the server
 - `npm start`
@@ -62,7 +57,9 @@ Access it from here: [The Wall App API](https://wall-app-hpmoreira05-back.heroku
 
 ## POST user
 
-- Resource URL: `https://wall-app-hpmoreira05-back.herokuapp.com/users`
+You can use the base url hosted in heroku in the beginning of resource url: https://wall-app-hpmoreira05-back.herokuapp.com/
+
+- Resource URL: `/users`
 
 ### Resource Information
 
@@ -97,7 +94,7 @@ Body{
 ```
 # POST login
 
-- Resource URL: `https://wall-app-hpmoreira05-back.herokuapp.com/users/login`
+- Resource URL: `/users/login`
 
 ### Resource Information
 
@@ -133,7 +130,7 @@ password: "123456"
 
 ## POST posts
 
-- Resource URL: `https://wall-app-hpmoreira05-back.herokuapp.com/posts`
+- Resource URL: `/posts`
 
 ### Resource Information
 
@@ -175,7 +172,7 @@ Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjY
 
 ## GET posts
 
-- Resource URL: `https://wall-app-hpmoreira05-back.herokuapp.com/posts`
+- Resource URL: `/posts`
 
 ### Resource Information
 
@@ -214,7 +211,7 @@ GET https://wall-app-hpmoreira05-back.herokuapp.com/posts
 ```
 ## GET user posts
 
-- Resource URL: `https://wall-app-hpmoreira05-back.herokuapp.com/posts/myposts`
+- Resource URL: `/posts/myposts`
 
 ### Resource Information
 
@@ -253,7 +250,7 @@ Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjY
 ```
 ## PUT posts
 
-- Resource URL: `https://wall-app-hpmoreira05-back.herokuapp.com/posts/:id`
+- Resource URL: `/posts/:id`
 
 ### Resource Information
 
@@ -296,7 +293,7 @@ Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjY
 ```
 ## DELETE posts
 
-- Resource URL: `https://wall-app-hpmoreira05-back.herokuapp.com/posts/:id`
+- Resource URL: `/posts/:id`
 
 ### Resource Information
 
