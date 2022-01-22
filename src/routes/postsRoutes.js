@@ -2,17 +2,18 @@ const router = require('express').Router();
 const validateToken = require('../middlewares/validateToken');
 const validatePostOwner = require('../middlewares/validatePostOwner');
 const { 
-  createPost,
-  getPosts,
-  getPostsByUserId,
-  editPost,
-  deletePost,
+  createUserResult, createMatch, deleteMatch, getResultsByPlayer, getMatch, getAllMatches, getAllResults, createSemester, getAllSemesters
 } = require('../controllers/postsController');
 
-router.post('/', validateToken, createPost);
-router.get('/', getPosts);
-router.get('/myposts', validateToken, getPostsByUserId);
-router.put('/:id', validateToken, validatePostOwner, editPost);
-router.delete('/:id', validateToken, validatePostOwner, deletePost);
+router.post('/', createMatch);
+router.post('/semester', createSemester);
+router.get('/semester', getAllSemesters)
+router.post('/results', createUserResult);
+router.get('/:match', getMatch);
+router.get('/created/all', getAllMatches);
+router.get('/results/all/:semester', getAllResults);
+
+router.get('/player/:name/:semester', getResultsByPlayer)
+router.delete('/', deleteMatch)
 
 module.exports = router;

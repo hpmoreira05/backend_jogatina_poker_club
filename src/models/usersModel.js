@@ -1,15 +1,21 @@
 const connection = require('../connection');
 
-const createUser = async ({ email, password, name }) => {
+const createUser = async ({ name }) => {
   const db = await connection();
-  await db.collection('users').insertOne({ name, email, password });
+  await db.collection('users').insertOne({ name });
   return { message: 'User successfully registered' };
 };
 
-const getUserByEmail = async (email) => {
+const getUserByName = async (name) => {
   const db = await connection();
-  const user = await db.collection('users').findOne({ email });
+  const user = await db.collection('users').findOne({ name });
   return user;
 };
 
-module.exports = { createUser, getUserByEmail };
+const getUsers = async () => {
+  const db = await connection();
+  const users = await db.collection('users').find().toArray();
+  return users;
+};
+
+module.exports = { createUser, getUserByName, getUsers };

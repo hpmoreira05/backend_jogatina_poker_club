@@ -1,52 +1,78 @@
-const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
-const createPost = async ({ description, userId, title, name }) => {
+const createMatch = async ({match}) => {
   const db = await connection();
-  const createdPost = await db.collection('posts')
+  const createdMatch = await db.collection('matches').insertOne({match})
+  return { message: 'Match created succesfully', createdMatch };
+}
+
+const createSemester = async ({semester}) => {
+  const db = await connection();
+  const createdSemester = await db.collection('semester').insertOne({semester})
+  return { message: 'Semester created succesfully', createdSemester };
+}
+
+const createUserResult = async ({ match, name, total, buyin, semester }) => {
+  const db = await connection();
+  const userResult = await db.collection('results')
     .insertOne({ 
-      title,
-      description,
-      createdAt: new Date().toLocaleString(),
-      userId,
+      match,
       name,
+      createdAt: new Date().toLocaleString(),
+      total,
+      buyin,
+      semester
     });
-  return { message: 'Post created succesfully', id: createdPost.insertedId };
+  return { message: 'Post created succesfully', userResult };
 };
 
-const getPosts = async () => {
+const getMatch = async ({match}) => {
   const db = await connection();
-  const posts = await db.collection('posts').find().toArray();
-  return posts;
+  const results = await db.collection('results').find({match}).toArray();
+  return results;
 };
 
-const getPostsByUserId = async (_id) => {
+const getAllMatches = async () => {
   const db = await connection();
-  const posts = await db.collection('posts').find({ userId: _id }).toArray();
-  return posts;
+  const matches = await db.collection('matches').find().toArray();
+  return matches;
 };
 
-const getPostById = async (id) => {
+const getAllSemesters = async () => {
   const db = await connection();
-  const editedPost = await db.collection('posts').findOne({ _id: ObjectId(id) });
-  return editedPost;
+  const semesters = await db.collection('semester').find().toArray();
+  return semesters;
 };
 
-const editPost = async ({ id, title, description }) => {
+const getAllResults = async({semester}) => {
   const db = await connection();
-  await db.collection('posts')
-    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { 
-      title,
-      description,
-      updatedAt: new Date().toLocaleString('en-US'),
-    } });
-  return { message: 'Post updated successfully' };
-};
+  const results = await db.collection('results').find({semester}).toArray();
+  return results;
+}
 
-const deletePost = async (id) => {
+const getResultsByPlayer = async ({name, semester}) => {
   const db = await connection();
-  await db.collection('posts').deleteOne({ _id: ObjectId(id) });
-  return { message: 'Post deleted successfully' };
+  const results = await db.collection('results').find({ name, semester }).toArray();
+  return results;
 };
 
-module.exports = { createPost, getPosts, getPostsByUserId, editPost, getPostById, deletePost };
+
+// const editPost = async ({ id, title, description }) => {
+//   const db = await connection();
+//   await db.collection('posts')
+//     .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { 
+//       title,
+//       description,
+//       updatedAt: new Date().toLocaleString('en-US'),
+//     } });
+//   return { message: 'Post updated successfully' };
+// };
+
+const deleteMatch = async ({match}) => {
+  const db = await connection();
+  await db.collection('results').deleteMany({ match });
+  await db.collection('matches').deleteOne({match})
+  return { message: 'Match deleted successfully' };
+};
+
+module.exports = {getAllResults, getAllMatches, createMatch, createUserResult, getMatch, getResultsByPlayer, deleteMatch, createSemester, getAllSemesters};

@@ -2,11 +2,10 @@ const Posts = require('../services/postsService');
 
 const errorMessage = 'Something went wrong. Try again later';
 
-const createPost = async (req, res) => {
+const createMatch = async (req, res) => {
   try {
-    const { description, title } = req.body;
-    const { _id, name } = req.user;
-    const data = await Posts.createPost({ title, description, userId: _id, name });
+    const { match } = req.body;
+    const data = await Posts.createMatch({ match });
     if (data.err) {
       return res.status(data.err.code).json(data.err.message); 
     }
@@ -17,9 +16,38 @@ const createPost = async (req, res) => {
   }
 };
 
-const getPosts = async (req, res) => {
+const createSemester = async (req, res) => {
   try {
-    const data = await Posts.getPosts();
+    const { semester } = req.body;
+    const data = await Posts.createSemester({ semester });
+    if (data.err) {
+      return res.status(data.err.code).json(data.err.message); 
+    }
+     return res.status(201).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: errorMessage });
+  }
+};
+
+const createUserResult = async (req, res) => {
+  try {
+    const { match, name, total, buyin, semester } = req.body;
+    const data = await Posts.createUserResult({ match, name, total, buyin, semester });
+    if (data.err) {
+      return res.status(data.err.code).json(data.err.message); 
+    }
+     return res.status(201).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: errorMessage });
+  }
+};
+
+const getMatch = async (req, res) => {
+  try {
+    const {match} = req.params;
+    const data = await Posts.getMatch({match});
     return res.status(200).json(data);
   } catch (error) {
     console.error(error);
@@ -27,10 +55,21 @@ const getPosts = async (req, res) => {
   }
 };
 
-const getPostsByUserId = async (req, res) => {
+const getAllResults = async (req, res) => {
   try {
-    const { _id } = req.user;
-    const data = await Posts.getPostsByUserId(_id);
+    const {semester} = req.params;
+    const data = await Posts.getAllResults({semester});
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: errorMessage });
+  }
+};
+
+const getResultsByPlayer = async (req, res) => {
+  try {
+    const { name, semester } = req.params;
+    const data = await Posts.getResultsByPlayer({name, semester});
     if (data.err) {
       return res.status(data.err.code).json(data.err.message); 
     }
@@ -41,25 +80,51 @@ const getPostsByUserId = async (req, res) => {
   }
 };
 
-const editPost = async (req, res) => {
+const getAllMatches = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { title, description } = req.body;
-    const data = await Posts.editPost({ id, title, description });
+    const data = await Posts.getAllMatches();
     if (data.err) {
       return res.status(data.err.code).json(data.err.message); 
     }
-     return res.status(200).json(data);
+    return res.status(201).json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: errorMessage });
+    res.status(500).json({ message: 'Something went wrong. Try again later' });
   }
 };
 
-const deletePost = async (req, res) => {
+const getAllSemesters = async (req, res) => {
   try {
-    const { id } = req.params;
-    const data = await Posts.deletePost(id);
+    const data = await Posts.getAllSemesters();
+    if (data.err) {
+      return res.status(data.err.code).json(data.err.message); 
+    }
+    return res.status(201).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Try again later' });
+  }
+};
+
+// const editPost = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { title, description } = req.body;
+//     const data = await Posts.editPost({ id, title, description });
+//     if (data.err) {
+//       return res.status(data.err.code).json(data.err.message); 
+//     }
+//      return res.status(200).json(data);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: errorMessage });
+//   }
+// };
+
+const deleteMatch = async (req, res) => {
+  try {
+    const { match } = req.body;
+    const data = await Posts.deleteMatch({match});
     if (data && data.err) {
       return res.status(data.err.code).json(data.err.message); 
     }
@@ -70,4 +135,4 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getPosts, getPostsByUserId, editPost, deletePost };
+module.exports = {getAllResults, getAllMatches ,createUserResult, createMatch, deleteMatch, getResultsByPlayer, getMatch, createSemester, getAllSemesters };

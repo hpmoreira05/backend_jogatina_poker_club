@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/users', usersRoutes);
-app.use('/posts', postsRoutes);
+app.use('/matches', postsRoutes);
 
 app.get('/', (req, res) => {
   res.send('Welcome to The Wall App API!');
